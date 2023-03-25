@@ -1,0 +1,3 @@
+{% for review in reviews_review_products.all %}
+    <p>Пользователь - <b>{{ review.author.username }}</b> - Отзыв: {{ review.text }} Оценка: {{ review.score }}</p>
+{% endfor %}
