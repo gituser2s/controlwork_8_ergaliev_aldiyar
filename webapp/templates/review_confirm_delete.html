@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Удаление{% endblock %}
+{% block menu %}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Вы точно хотите удалить отзыв?</h1>
+        <p>Автор: {{ review.author }}</p>
+        <p>Отзыв: {{ review.text }}</p>
+        <form action="{% url 'review_confirm_delete' review.pk%}" method="post">
+            {% csrf_token %}
+            <p><input type="submit" value="Удалить"></p>
+            <p><a href="{% url 'index' %}">Отмена</a></p>
+        </form>
+    </div>
+{% endblock %}
