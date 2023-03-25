@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% load django_bootstrap5 %}
+{% block menu %}
+    {% if user.is_authenticated %}
+          <a href="{% url 'product_add' %}" class="btn btn-primary">Добавить продукт</a>
+    {% endif %}
+
+{% endblock %}
+{% block content %}
+    {% include 'partial/search.html' %}
+    <h1>Продукты</h1>
+    {% for product in products %}
+        <div class="blocks">
+            <h2>Название продукта: {{ product.title }}</h2>
+            <h2>Категория продукта: {{ product.category }}</h2>
+            <h2>Описание продукта: {{ product.description }}</h2>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="product" class="IMG">
+            {% endif %}
+            <a class="btn btn-primary" href="{% url 'product_detail' product.pk %}">Подробнее о продукте..</a>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'review_add' product.pk %}" method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form review_form %}
+                        {% bootstrap_button button_type="submit" content='Оставить отзыв' %}
+                    </form>
+                {% endif %}
+        </div>
+        {% if is_paginated %}
+            {% include 'partial/pagination.html' %}
+        {% endif %}
+        {% empty %}
+            <p class="NOT_FOUND">Задачи не найдены!</p>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>
